@@ -11,10 +11,42 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "KAKOTUAMIGO — Imports desde China",
+  metadataBase: new URL("https://kakotuamigo.vercel.app"),
+  title: {
+    default: "KAKOTUAMIGO — Imports desde China",
+    template: "%s | KAKOTUAMIGO",
+  },
   description:
-    "Stock disponible y encargos desde China. Ropa, zapatillas y accesorios de marcas premium. Calidad garantizada vía Kakobuy.",
-  keywords: ["kakobuy", "imports china", "ropa", "zapatillas", "accesorios", "argentina"],
+    "Stock en mano y encargos desde China vía Kakobuy. Ropa, zapatillas y accesorios de marcas premium con QC incluido. Envíos a todo Argentina.",
+  keywords: ["kakobuy", "imports china", "ropa", "zapatillas", "accesorios", "argentina", "streetwear", "replicas"],
+  openGraph: {
+    title: "KAKOTUAMIGO — Imports desde China",
+    description:
+      "Stock en mano y encargos desde China vía Kakobuy. Ropa, zapatillas y accesorios de marcas premium con QC incluido.",
+    url: "https://kakotuamigo.vercel.app",
+    siteName: "KAKOTUAMIGO",
+    images: [
+      {
+        url: "/logo.png",
+        width: 1080,
+        height: 1080,
+        alt: "KAKOTUAMIGO — Imports desde China",
+      },
+    ],
+    locale: "es_AR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "KAKOTUAMIGO — Imports desde China",
+    description:
+      "Stock en mano y encargos desde China vía Kakobuy. Ropa, zapatillas y accesorios de marcas premium con QC incluido.",
+    images: ["/logo.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { waLink } from "@/lib/data";
@@ -39,11 +40,15 @@ export default function Navbar() {
       <nav className="border-b border-edge bg-base sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
           {/* Logo */}
-          <Link
-            href="/"
-            className="text-primary font-bold tracking-[0.15em] text-lg uppercase hover:text-secondary transition-colors"
-          >
-            KAKOTUAMIGO
+          <Link href="/" className="flex items-center">
+            <Image
+              src="/logo.png"
+              alt="KAKOTUAMIGO"
+              width={120}
+              height={120}
+              className="h-10 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop links */}
