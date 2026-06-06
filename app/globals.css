@@ -1,0 +1,54 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-space-grotesk);
+
+  --color-base: #080808;
+  --color-surface: #111111;
+  --color-elevated: #1c1c1c;
+  --color-edge: #222222;
+  --color-primary: #ffffff;
+  --color-secondary: #999999;
+  --color-dim: #444444;
+  --color-accent: #ff2020;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background-color: #080808;
+  color: #ffffff;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+input,
+textarea,
+select {
+  outline: none;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
