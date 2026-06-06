@@ -9,32 +9,52 @@ export default function Home() {
   return (
     <>
       {/* HERO */}
-      <section className="min-h-[90vh] flex flex-col justify-center items-center border-b border-edge px-6 py-24 text-center">
-        <Image
-          src="/logo.png"
-          alt="KAKOTUAMIGO"
-          width={400}
-          height={400}
-          className="w-64 md:w-96 h-auto mb-10"
-          priority
-        />
-        <p className="text-secondary text-base md:text-lg max-w-lg leading-relaxed mb-10">
-          Stock en mano + encargos desde China. Ropa, zapatillas y accesorios
-          de marcas premium. Calidad garantizada vía Kakobuy.
-        </p>
-        <div className="flex flex-wrap gap-4 justify-center">
-          <Link
-            href="/stock"
-            className="bg-primary text-base font-bold text-sm tracking-widest uppercase px-8 py-4 hover:bg-secondary transition-colors"
-          >
-            VER STOCK
-          </Link>
-          <Link
-            href="/encargos"
-            className="border border-primary text-primary font-bold text-sm tracking-widest uppercase px-8 py-4 hover:bg-primary hover:text-base transition-colors"
-          >
-            HACER UN ENCARGO
-          </Link>
+      <section className="min-h-[90vh] flex flex-col justify-center border-b border-edge px-6 py-24 max-w-7xl mx-auto w-full">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-12">
+          {/* Text */}
+          <div className="max-w-2xl">
+            <p className="text-dim text-xs font-semibold tracking-[0.3em] uppercase mb-8">
+              BUENOS AIRES, ARGENTINA
+            </p>
+            <h1 className="text-[clamp(4rem,12vw,10rem)] font-bold leading-[0.9] tracking-[-0.02em] uppercase text-primary mb-8">
+              KAKO
+              <br />
+              TU
+              <br />
+              AMIGO
+            </h1>
+            <div className="w-full h-px bg-edge mb-8" />
+            <p className="text-secondary text-base md:text-lg max-w-lg leading-relaxed mb-12">
+              Stock en mano + encargos desde China. Ropa, zapatillas y accesorios
+              de marcas premium. Calidad garantizada vía Kakobuy.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href="/stock"
+                className="bg-primary text-base font-bold text-sm tracking-widest uppercase px-8 py-4 hover:bg-secondary transition-colors"
+              >
+                VER STOCK
+              </Link>
+              <Link
+                href="/encargos"
+                className="border border-primary text-primary font-bold text-sm tracking-widest uppercase px-8 py-4 hover:bg-primary hover:text-base transition-colors"
+              >
+                HACER UN ENCARGO
+              </Link>
+            </div>
+          </div>
+
+          {/* Logo */}
+          <div className="shrink-0 flex justify-center md:justify-end">
+            <Image
+              src="/logo.png"
+              alt="KAKOTUAMIGO"
+              width={360}
+              height={360}
+              className="w-56 md:w-80 h-auto rounded-full"
+              priority
+            />
+          </div>
         </div>
       </section>
 
