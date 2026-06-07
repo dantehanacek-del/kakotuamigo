@@ -14,6 +14,8 @@ type FormData = {
   notas: string;
 };
 
+type FormErrors = Partial<Record<keyof FormData, string>>;
+
 const empty: FormData = {
   nombre: "",
   whatsapp: "",
@@ -24,26 +26,44 @@ const empty: FormData = {
   notas: "",
 };
 
+function validate(form: FormData): FormErrors {
+  const errors: FormErrors = {};
+  if (form.nombre.trim().length < 2)
+    errors.nombre = "Ingresá tu nombre completo.";
+  if (!/^\+?[\d\s\-()]{8,}$/.test(form.whatsapp.trim()))
+    errors.whatsapp = "Número de WhatsApp inválido.";
+  if (form.producto.trim().length < 3)
+    errors.producto = "Describí el producto (mínimo 3 caracteres).";
+  if (!form.talle.trim())
+    errors.talle = "Indicá el talle o número.";
+  const qty = parseInt(form.cantidad, 10);
+  if (isNaN(qty) || qty < 1 || qty > 99)
+    errors.cantidad = "Cantidad inválida (1-99).";
+  return errors;
+}
+
 export default function PedirPage() {
   const [form, setForm] = useState<FormData>(empty);
+  const [errors, setErrors] = useState<FormErrors>({});
   const [sent, setSent] = useState(false);
 
   function set(k: keyof FormData, v: string) {
     setForm((prev) => ({ ...prev, [k]: v }));
+    if (errors[k]) setErrors((prev) => ({ ...prev, [k]: undefined }));
   }
 
   function buildMessage(): string {
     return [
       `🛍️ *NUEVO ENCARGO — KAKOTUAMIGO*`,
       ``,
-      `👤 *Nombre:* ${form.nombre}`,
-      `📱 *WhatsApp:* ${form.whatsapp}`,
+      `👤 *Nombre:* ${form.nombre.trim()}`,
+      `📱 *WhatsApp:* ${form.whatsapp.trim()}`,
       ``,
-      `📦 *Producto:* ${form.producto}`,
-      form.link ? `🔗 *Link:* ${form.link}` : null,
-      `📐 *Talle/Número:* ${form.talle}`,
+      `📦 *Producto:* ${form.producto.trim()}`,
+      form.link.trim() ? `🔗 *Link:* ${form.link.trim()}` : null,
+      `📐 *Talle/Número:* ${form.talle.trim()}`,
       `🔢 *Cantidad:* ${form.cantidad}`,
-      form.notas ? `📝 *Notas:* ${form.notas}` : null,
+      form.notas.trim() ? `📝 *Notas:* ${form.notas.trim()}` : null,
     ]
       .filter(Boolean)
       .join("\n");
@@ -51,7 +71,11 @@ export default function PedirPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!form.nombre || !form.whatsapp || !form.producto || !form.talle) return;
+    const errs = validate(form);
+    if (Object.keys(errs).length > 0) {
+      setErrors(errs);
+      return;
+    }
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(buildMessage())}`;
     window.open(url, "_blank");
     setSent(true);
@@ -128,7 +152,11 @@ export default function PedirPage() {
                   value={form.nombre}
                   onChange={(e) => set("nombre", e.target.value)}
                   className={inputClass}
+                  aria-describedby={errors.nombre ? "err-nombre" : undefined}
                 />
+                {errors.nombre && (
+                  <p id="err-nombre" className="text-accent text-[10px] mt-1">{errors.nombre}</p>
+                )}
               </div>
               <div>
                 <label className={labelClass}>Tu WhatsApp *</label>
@@ -139,7 +167,11 @@ export default function PedirPage() {
                   value={form.whatsapp}
                   onChange={(e) => set("whatsapp", e.target.value)}
                   className={inputClass}
+                  aria-describedby={errors.whatsapp ? "err-whatsapp" : undefined}
                 />
+                {errors.whatsapp && (
+                  <p id="err-whatsapp" className="text-accent text-[10px] mt-1">{errors.whatsapp}</p>
+                )}
               </div>
             </div>
           </div>
@@ -159,7 +191,11 @@ export default function PedirPage() {
                   value={form.producto}
                   onChange={(e) => set("producto", e.target.value)}
                   className={inputClass}
+                  aria-describedby={errors.producto ? "err-producto" : undefined}
                 />
+                {errors.producto && (
+                  <p id="err-producto" className="text-accent text-[10px] mt-1">{errors.producto}</p>
+                )}
               </div>
               <div>
                 <label className={labelClass}>Link del producto (si tenés)</label>
@@ -181,7 +217,11 @@ export default function PedirPage() {
                     value={form.talle}
                     onChange={(e) => set("talle", e.target.value)}
                     className={inputClass}
+                    aria-describedby={errors.talle ? "err-talle" : undefined}
                   />
+                  {errors.talle && (
+                    <p id="err-talle" className="text-accent text-[10px] mt-1">{errors.talle}</p>
+                  )}
                 </div>
                 <div>
                   <label className={labelClass}>Cantidad *</label>

@@ -5,16 +5,18 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { waLink } from "@/lib/data";
+import { useCart } from "@/lib/cart";
 
 const links = [
   { href: "/stock", label: "STOCK" },
   { href: "/encargos", label: "ENCARGOS" },
-  { href: "/encargos/pedir", label: "HACER PEDIDO" },
+  { href: "/carrito", label: "CARRITO" },
 ];
 
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { totalItems } = useCart();
 
   return (
     <>
@@ -68,8 +70,26 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* WhatsApp + Mobile menu */}
+          {/* Cart + WhatsApp + Mobile menu */}
           <div className="flex items-center gap-4">
+            {/* Cart icon */}
+            <Link
+              href="/carrito"
+              aria-label={`Carrito — ${totalItems} productos`}
+              className="relative flex items-center text-secondary hover:text-primary transition-colors"
+            >
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
+                <line x1="3" y1="6" x2="21" y2="6" />
+                <path d="M16 10a4 4 0 01-8 0" />
+              </svg>
+              {totalItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-accent text-primary text-[9px] font-bold w-4 h-4 flex items-center justify-center rounded-full">
+                  {totalItems > 9 ? "9+" : totalItems}
+                </span>
+              )}
+            </Link>
+
             <a
               href={waLink("Hola Dante! Te escribo desde kakotuamigo.store")}
               target="_blank"

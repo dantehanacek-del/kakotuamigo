@@ -1,9 +1,13 @@
 "use client";
 
 import Image from "next/image";
+import { useState } from "react";
 import { type Outfit, getItemById, waOrderLink, cnyToUsd } from "@/lib/catalog";
+import { waLink } from "@/lib/data";
 
 export default function OutfitCard({ outfit }: { outfit: Outfit }) {
+  const [imgErrors, setImgErrors] = useState<Record<string, boolean>>({});
+
   const validItems = outfit.items
     .map(getItemById)
     .filter((i): i is NonNullable<ReturnType<typeof getItemById>> => i !== undefined);
@@ -34,14 +38,15 @@ export default function OutfitCard({ outfit }: { outfit: Outfit }) {
             key={item.id}
             className="relative aspect-square border-r border-edge last:border-r-0 overflow-hidden bg-surface"
           >
-            {item.image ? (
+            {item.image && !imgErrors[item.id] ? (
               <Image
                 src={item.image}
-                alt={item.name}
+                alt={`${item.brand} ${item.name}`}
                 fill
                 className="object-cover hover:scale-105 transition-transform duration-500"
                 sizes="33vw"
                 unoptimized
+                onError={() => setImgErrors((prev) => ({ ...prev, [item.id]: true }))}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
@@ -75,11 +80,10 @@ export default function OutfitCard({ outfit }: { outfit: Outfit }) {
               )}
             </div>
             <a
-              href={`https://wa.me/5491141890565?text=${encodeURIComponent(
-                `Hola Dante! Quiero encargar:\n*${item.brand} — ${item.name}*\nLink: ${item.kakobuy_url}\n\n¿Cuál es el precio y talle disponible?`
-              )}`}
+              href={waLink(`Hola Dante! Quiero encargar:\n*${item.brand} — ${item.name}*\nLink: ${item.kakobuy_url}\n\n¿Cuál es el precio y talle disponible?`)}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label={`Pedir solo ${item.brand} ${item.name} por WhatsApp`}
               className="text-[10px] font-bold tracking-widest uppercase border border-edge text-secondary px-3 py-1.5 hover:border-primary hover:text-primary transition-colors shrink-0"
             >
               SOLO →
