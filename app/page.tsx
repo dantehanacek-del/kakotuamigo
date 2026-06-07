@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { stockProducts, waLink } from "@/lib/data";
 import ProductCard from "@/components/ProductCard";
 
@@ -10,16 +9,45 @@ export default function Home() {
     <>
       {/* HERO */}
       <section className="min-h-[90vh] flex flex-col justify-center border-b border-edge px-6 py-24 max-w-7xl mx-auto w-full">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-12">
-          {/* Text */}
-          <div className="max-w-2xl">
+        <div className="max-w-2xl">
             <p className="text-dim text-xs font-semibold tracking-[0.3em] uppercase mb-8">
               BUENOS AIRES, ARGENTINA
             </p>
             <h1 className="text-[clamp(4rem,12vw,10rem)] font-bold leading-[0.9] tracking-[-0.02em] uppercase text-primary mb-8">
               KAKO
               <br />
-              TU
+              <span className="inline-flex items-center gap-4">
+                TU
+                {/* Argentina + China flag circle */}
+                <svg
+                  viewBox="0 0 100 100"
+                  className="inline-block"
+                  style={{ width: "0.55em", height: "0.55em", flexShrink: 0 }}
+                  aria-hidden="true"
+                >
+                  <defs>
+                    <clipPath id="arg-clip">
+                      <path d="M50,2 A48,48 0 0,0 50,98 Z" />
+                    </clipPath>
+                    <clipPath id="chn-clip">
+                      <path d="M50,2 A48,48 0 0,1 50,98 Z" />
+                    </clipPath>
+                    <clipPath id="circle-clip">
+                      <circle cx="50" cy="50" r="48" />
+                    </clipPath>
+                  </defs>
+                  {/* Argentina left half — blue/white/blue */}
+                  <rect x="2" y="2" width="48" height="96" fill="#74ACDF" clipPath="url(#circle-clip)" />
+                  <rect x="2" y="34" width="48" height="32" fill="white" clipPath="url(#circle-clip)" />
+                  {/* China right half — red + star */}
+                  <rect x="50" y="2" width="48" height="96" fill="#DE2910" clipPath="url(#circle-clip)" />
+                  <text x="72" y="58" textAnchor="middle" fontSize="28" fill="#FFDE00">★</text>
+                  {/* Border */}
+                  <circle cx="50" cy="50" r="48" fill="none" stroke="white" strokeWidth="2" />
+                  {/* Center divider */}
+                  <line x1="50" y1="2" x2="50" y2="98" stroke="white" strokeWidth="1.5" />
+                </svg>
+              </span>
               <br />
               AMIGO
             </h1>
@@ -43,19 +71,6 @@ export default function Home() {
               </Link>
             </div>
           </div>
-
-          {/* Logo */}
-          <div className="shrink-0 flex justify-center md:justify-end">
-            <Image
-              src="/logo.png"
-              alt="KAKOTUAMIGO"
-              width={360}
-              height={360}
-              className="w-56 md:w-80 h-auto rounded-full"
-              priority
-            />
-          </div>
-        </div>
       </section>
 
       {/* STATS BAR */}
